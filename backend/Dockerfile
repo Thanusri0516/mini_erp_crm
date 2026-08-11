@@ -1,24 +1,28 @@
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 
 WORKDIR /app
 
-# Copy package descriptors
+# Install OpenSSL required by Prisma
+RUN apt-get update && apt-get install -y openssl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package files
 COPY package*.json ./
 
-# Install packages
+# Install dependencies
 RUN npm install
 
-# Copy codebase
+# Copy application
 COPY . .
 
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Build TypeScript to Javascript
+# Build TypeScript
 RUN npm run build
 
-# Expose port
+# Expose application port
 EXPOSE 5000
 
-# Start script
+# Run migrations and start server
 CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
