@@ -1,0 +1,107 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  name      String
+  role      String   // ADMIN, SALES, WAREHOUSE, ACCOUNTS
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  stockLogs     StockLog[]
+  challans      Challan[]
+  followUpNotes FollowUpNote[]
+}
+
+model Customer {
+  id           Int            @id @default(autoincrement())
+  name         String
+  mobile       String
+  email        String
+  businessName String
+  gstNumber    String?
+  type         String         // RETAIL, WHOLESALE, DISTRIBUTOR
+  address      String
+  status       String         // LEAD, ACTIVE, INACTIVE
+  followUpDate DateTime?
+  notes        String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  
+  followUpNotes FollowUpNote[]
+  challans      Challan[]
+}
+
+model FollowUpNote {
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  note        String
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  name           String
+  sku            String   @unique
+  category       String
+  unitPrice      Float
+  currentStock   Int
+  minStockAlert  Int
+  location       String
+  imageUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  stockLogs StockLog[]
+}
+
+model StockLog {
+  id          Int      @id @default(autoincrement())
+  productId   Int
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity    Int      
+  type        String   // IN, OUT
+  reason      String
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Challan {
+  id            Int           @id @default(autoincrement())
+  challanNumber String        @unique
+  customerId    Int
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  status        String        // DRAFT, CONFIRMED, CANCELLED
+  totalQuantity Int
+  totalAmount   Float
+  createdById   Int
+  createdBy     User          @relation(fields: [createdById], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  items ChallanItem[]
+}
+
+model ChallanItem {
+  id          Int     @id @default(autoincrement())
+  challanId   Int
+  challan     Challan @relation(fields: [challanId], references: [id], onDelete: Cascade)
+  productId   Int?
+  productName String  // Snapshot
+  productSku  String  // Snapshot
+  unitPrice   Float   // Snapshot
+  quantity    Int
+  subtotal    Float
+}

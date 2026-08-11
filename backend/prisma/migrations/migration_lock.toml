@@ -1,0 +1,4 @@
+# This is a Prisma schema migration lock file.
+# Avoid editing this file manually; it is managed by Prisma.
+
+provider = "postgresql"
