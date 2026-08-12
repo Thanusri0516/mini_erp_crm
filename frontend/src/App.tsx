@@ -42,6 +42,7 @@ export default function App() {
     setAuthToken(null);
     setUser(null);
     setCurrentUser(null);
+    setShowLoginModal(true);
   };
 
   if (!currentUser) {
