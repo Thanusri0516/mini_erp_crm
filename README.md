@@ -4,6 +4,12 @@ A premium, responsive full-stack operations portal designed for wholesale and di
 
 ---
 
+### 🌐 Live Deployment Links
+* **Live Frontend URL**: [https://mini-erp-frontend-ikrf.onrender.com](https://mini-erp-frontend-ikrf.onrender.com) *(or your specific static site URL)*
+* **Live Backend API URL**: [https://mini-erp-backend-ikrf.onrender.com/api](https://mini-erp-backend-ikrf.onrender.com/api)
+
+---
+
 ## 🛠️ Required Tech Stack
 
 - **Backend**: Node.js, TypeScript, Express.js, Prisma ORM, SQLite (local dev) / PostgreSQL (production), JWT Auth
@@ -174,7 +180,24 @@ All endpoints (except login) require a header: `Authorization: Bearer <JWT_TOKEN
 
 ## 📌 Assumptions Made
 
-1. **Local Disk Storage**: Product images are simulated via base64 fallback or default icons to run 100% offline without requiring S3 tokens.
+1. **Local Disk Storage**: Product images are simulated via base64 fallback or default category icons to run 100% offline without requiring S3 tokens.
 2. **Sales Tax / GST**: Tax calculation is simplified as direct line sub-totals. The GST registration number is tracked for active customers.
-3. **Database Portability**: SQLite is used for local dev to guarantee a zero-installation test run, but Prisma makes it completely compatible with PostgreSQL/MySQL.
+3. **Database Portability**: SQLite can be used for local dev to guarantee a zero-installation test run, but Prisma makes it completely compatible with PostgreSQL.
 4. **Client-side PDF Generation**: PDF invoices are built inside the client browser to optimize server load and keep hosting costs at zero.
+
+---
+
+## 🏗️ Architectural Overview
+The project is built as a decoupled Client-Server architecture:
+* **Frontend**: A Single Page Application (SPA) built using **React 19, Vite, and TypeScript**. Styled with **Vanilla CSS** following custom design variables (Sage green and Warm ochre color tokens) for responsive grid alignments and interactive dashboard layouts.
+* **Backend**: A RESTful API built on **Node.js, Express, and TypeScript**. It uses standard middleware for JWT authentication token validation, global error boundaries, and CORS configuration.
+* **Database**: Managed via **Prisma ORM** connecting to **Supabase PostgreSQL** in production. It uses connection pooling (PgBouncer) for application query routines and direct connections for running database migrations.
+* **DevOps**: Multi-container containerization managed through **Docker and Docker Compose** files.
+
+---
+
+## ⚠️ Known Limitations & Incomplete Parts
+* **No Active Email Server**: Timeline notes and scheduled follow-ups are tracked internally in the CRM database rather than triggering external customer notification emails.
+* **Static Image Assets**: Product files are represented via fallback icons rather than dynamic external file storage (like AWS S3).
+* **No Token Revocation List**: JWT authentication handles sign-outs on the client side by discarding the local storage token. There is no active server-side token blacklisting (e.g. Redis) implemented in the current version.
+
