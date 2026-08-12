@@ -1,0 +1,613 @@
+{
+  "info": {
+    "_postman_id": "b1a23c45-d6e7-48f9-9012-3456789abcde",
+    "name": "Mini ERP + CRM API Collection",
+    "description": "API collection for the Mini ERP + CRM Operations Portal. Use the Login request to get a JWT token, set it as the collection variable `jwt_token`, and all other requests will use it automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Log in as Admin, Sales, Warehouse, or Accounts to retrieve the JWT access token."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Fetches the current authenticated user's credentials and role privileges."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customer CRM",
+      "item": [
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers?search=&type=&status=&page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "type",
+                  "value": ""
+                },
+                {
+                  "key": "status",
+                  "value": ""
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Lists customers with support for text search, type filtering, status filtering, and pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Gets detailed profile metrics of a customer including follow-up note history."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tesla India\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"contact@tesla.in\",\n  \"businessName\": \"Tesla Motors India Private Limited\",\n  \"gstNumber\": \"27AAAAA1111A1Z1\",\n  \"type\": \"Distributor\",\n  \"address\": \"Palo Alto Tech Park, Sector 4, Mumbai, Maharashtra\",\n  \"status\": \"Lead\",\n  \"notes\": \"Interested in bulk battery purchases.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Adds a new customer profile. Role: ADMIN, SALES."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tesla India Inc\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"contact@tesla.in\",\n  \"businessName\": \"Tesla Motors India Private Limited\",\n  \"gstNumber\": \"27AAAAA1111A1Z1\",\n  \"type\": \"Distributor\",\n  \"address\": \"Palo Alto Tech Park, Sector 4, Mumbai, Maharashtra\",\n  \"status\": \"Active\",\n  \"notes\": \"Converted lead to active client.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Edits customer details. Role: ADMIN, SALES."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Deletes a customer profile. Role: ADMIN, SALES."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Follow-up note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Discussed wholesale catalog pricing. Scheduled next follow-up call for next Monday.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/1/notes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "1",
+                "notes"
+              ]
+            },
+            "description": "Appends a communication log timeline note for a customer. Role: ADMIN, SALES."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products & Inventory",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products?search=&category=&lowStock=&page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "category",
+                  "value": ""
+                },
+                {
+                  "key": "lowStock",
+                  "value": ""
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Lists inventory items with support for search, category filtering, low-stock alerts toggle, and pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Retrieves the detailed record of an inventory product."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Logitech MX Master 3S\",\n  \"sku\": \"MS-LOG-MX3S\",\n  \"category\": \"Accessories\",\n  \"unitPrice\": 9500,\n  \"currentStock\": 45,\n  \"minStockAlert\": 10,\n  \"location\": \"Warehouse A - Bin 14\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "Adds a new product to the catalog. Role: ADMIN, WAREHOUSE."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Logitech MX Master 3S Wireless\",\n  \"sku\": \"MS-LOG-MX3S\",\n  \"category\": \"Accessories\",\n  \"unitPrice\": 9999,\n  \"currentStock\": 45,\n  \"minStockAlert\": 8,\n  \"location\": \"Warehouse A - Bin 14\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Edits product fields. Role: ADMIN, WAREHOUSE."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Removes a product from the catalog. Role: ADMIN, WAREHOUSE."
+          },
+          "response": []
+        },
+        {
+          "name": "Adjust Product stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantityDelta\": 15,\n  \"reason\": \"Received wholesale supplier delivery\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products/1/adjust",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1",
+                "adjust"
+              ]
+            },
+            "description": "Manually adjusts the product stock levels up or down. Delta can be positive (stock intake) or negative (shrinkage/audit errors). Role: ADMIN, WAREHOUSE."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product Stock History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/1/logs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "1",
+                "logs"
+              ]
+            },
+            "description": "Gets the chronological stock movement log ledger for a specific product."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sales Challans",
+      "item": [
+        {
+          "name": "List Challans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/challans?search=&status=&page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "challans"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "status",
+                  "value": ""
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Lists sales challan registries with status filters and text search."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Challan details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/challans/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "challans",
+                "1"
+              ]
+            },
+            "description": "Retrieves single challan invoices containing frozen snapshot item properties."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Challan (Draft or Confirmed)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"status\": \"DRAFT\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 5\n    },\n    {\n      \"productId\": 2,\n      \"quantity\": 2\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/challans",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "challans"
+              ]
+            },
+            "description": "Creates a challan. Status can be DRAFT (does not affect stock) or CONFIRMED (verifies inventory availability and commits stock deduction). Role: ADMIN, SALES."
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm draft Challan",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/challans/1/confirm",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "challans",
+                "1",
+                "confirm"
+              ]
+            },
+            "description": "Confirms a draft challan. Triggers atomic validation and decrements stock. Role: ADMIN, SALES."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel confirmed Challan",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/challans/1/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "challans",
+                "1",
+                "cancel"
+              ]
+            },
+            "description": "Cancels a confirmed challan invoice. Status is set to CANCELLED and items are atomically returned back into active warehouse inventory levels. Role: ADMIN, ACCOUNTS."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "your_token_here",
+      "type": "string"
+    }
+  ]
+}

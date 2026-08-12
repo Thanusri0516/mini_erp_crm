@@ -146,7 +146,9 @@ To deploy this project to free hosting platforms:
 
 ## 📡 REST API Documentation
 
-All endpoints (except login) require a header: `Authorization: Bearer <JWT_TOKEN>`.
+We provide a pre-configured **Postman Collection** inside [postman_collection.json](file:///c:/Users/thanu/Documents/projects/MiniERP+CRM%20Operations%20portal/backend/postman_collection.json). You can import it directly into Postman to test all endpoints locally or in production.
+
+All endpoints (except login) require a header: `Authorization: Bearer <JWT_TOKEN>`. (This is automated in the Postman collection via the `{{jwt_token}}` collection variable).
 
 ### Authentication
 - `POST /api/auth/login` - Login to account. Body: `{ username, password }`.
