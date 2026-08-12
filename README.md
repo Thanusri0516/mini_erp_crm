@@ -5,7 +5,7 @@ A premium, responsive full-stack operations portal designed for wholesale and di
 ---
 
 ### 🌐 Live Deployment Links
-* **Live Frontend URL**: [https://mini-erp-frontend-ikrf.onrender.com](https://mini-erp-frontend-ikrf.onrender.com) *(or your specific static site URL)*
+* **Live Frontend URL**: [https://mini-erp-crm-tt5s.onrender.com](https://mini-erp-crm-tt5s.onrender.com)
 * **Live Backend API URL**: [https://mini-erp-backend-ikrf.onrender.com/api](https://mini-erp-backend-ikrf.onrender.com/api)
 
 ---
